@@ -1,0 +1,8 @@
+Datensicherung: csv-dateien?
+
+
+Vielleicht ein config file? Für z.B. bestimmen der Formatierung.
+
+
+Cli usage:
+    claw <legal-doc> <article>:<paragraph>:<sentence>
