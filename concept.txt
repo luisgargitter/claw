@@ -1,4 +1,8 @@
-Datensicherung: csv-dateien?
+Datensicherung:
+    <Artikel> <Absatz>-<Satz> "Satzinhalt"\n
+    -//-
+    -//-
+    ...
 
 
 Vielleicht ein config file? Für z.B. bestimmen der Formatierung.
@@ -14,3 +18,16 @@ Cli usage:
 
 Usage Example:
     claw euv 26 2-3
+
+Vorgang:
+    File-Konvertierung:
+        - Convert PDF to raw text with "pdftotext" clt.
+        - Split file by articles.
+        - Split articles by paragraphs
+        - Split paragraph by sentences
+        - Write File with Format: <Artikel <Absatz>-<Satz>\n
+        
+    Searching the File:
+        Query file by using grep. We can use greps nice feature, that returns all lines with matching content,
+    so that when you specify only the Article, that you want to find, it will return you every paragraph and sentence.
+    Additionally we can Format the Result nicely.
