@@ -4,7 +4,6 @@ Datensicherung:
     -//-
     ...
 
-
 Vielleicht ein config file? Für z.B. bestimmen der Formatierung.
 
 features:
