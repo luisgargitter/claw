@@ -10,7 +10,7 @@ def extract_paragraphs(articles):
     #   - remove footnotes.
     #   - split paragraphs.
     # Note: maybe it is easier to first split by paragraphs and the remove the footnotes,
-    # because they not match the internal numbering order of the paragraph (inspect document in legaldocs/.
+    # because they do not match the internal numbering order of the paragraph (inspect document in legaldocs/.
 
     return articles
 
