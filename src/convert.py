@@ -2,9 +2,21 @@ import os
 import sys
 import re
 
-# die header stimmen noch ned
+# die header stimmen
 header1 = "26.10.2012\n\nDE\n\nAmtsblatt der Europäischen Union\n\nC 326\/\d+\n\n"
 header2 = "C 326\/\d+\n\nDE\n\nAmtsblatt der Europäischen Union\n\n26.10.2012\n\n" 
+
+def split_sentences(articles):
+    for i, a in enumerate(articles):
+        for j, p in enumerate(a):
+            articles[i][j] = re.split("\.\s", p)
+
+    return articles    
+
+def split_paragraphs(articles):
+    for i, a in enumerate(articles):
+        articles[i] = re.split("\(\d+\)", a)
+    return articles
 
 def strip_to_last_sentence(article):
     article += "\n"
@@ -18,7 +30,7 @@ def extract_paragraphs(articles):
         articles[i]= strip_to_last_sentence(article).strip()
 
     # TODO:
-    #   - remove footnotes.
+    #   - remove footnot.
     #   - split paragraphs.
     # Note: maybe it is easier to first split by paragraphs and the remove the footnotes,
     # because they do not match the internal numbering order of the paragraph (inspect document in legaldocs/.
@@ -40,10 +52,16 @@ def main(args):
         text = f.read()
     articles = split_articles(remove_unwanted(text))[1:]
     articles = extract_paragraphs(articles)
+    articles = split_paragraphs(articles)
+    articles = split_sentences(articles)
 
     for a in articles:
-        print(a)
-        print("------------")
+        for p in a:
+            for s in p:
+                print(s + ".")
+                print("\n-\n")
+            print("\n---\n")
+        print("\n------------\n")
 
 if __name__ == "__main__":
     main(sys.argv)
