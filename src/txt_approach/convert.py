@@ -5,11 +5,12 @@ import re
 # die header stimmen
 header1 = "26.10.2012\n\nDE\n\nAmtsblatt der Europäischen Union\n\nC 326\/\d+\n\n"
 header2 = "C 326\/\d+\n\nDE\n\nAmtsblatt der Europäischen Union\n\n26.10.2012\n\n" 
+footnote = "\(1\) Dieser Verweis hat lediglich hinweisenden Charakter\. Zur Vertiefung vgl\. die Übereinstimmungstabellen für die Ent\W+sprechung zwischen bisheriger und neuer Nummerierung der Verträge\."
 
 def split_sentences(articles):
     for i, a in enumerate(articles):
         for j, p in enumerate(a):
-            articles[i][j] = re.split("\.\s", p)
+            articles[i][j] = re.split("\.\s", p.strip())
 
     return articles    
 
@@ -29,12 +30,6 @@ def extract_paragraphs(articles):
     for i, article in enumerate(articles):
         articles[i]= strip_to_last_sentence(article).strip()
 
-    # TODO:
-    #   - remove footnot.
-    #   - split paragraphs.
-    # Note: maybe it is easier to first split by paragraphs and the remove the footnotes,
-    # because they do not match the internal numbering order of the paragraph (inspect document in legaldocs/.
-
     return articles
 
 def split_articles(text):
@@ -43,25 +38,27 @@ def split_articles(text):
 def remove_unwanted(text):
     res = re.sub("\(ex-Artikel\s+\d+\s.+", "", text)
     res = re.sub(header1, "", res)
-    res = re.sub(header2, "", res).replace("\f", "")  
+    res = re.sub(header2, "", res).replace("\f", "")
+    res = re.sub(footnote, "", res)
 
     return res
 
 def main(args):
     with open(args[1], "r", encoding="utf-8") as f:
         text = f.read()
-    articles = split_articles(remove_unwanted(text))[1:]
+    text = remove_unwanted(text)
+    articles = split_articles(text)[1:]
     articles = extract_paragraphs(articles)
     articles = split_paragraphs(articles)
     articles = split_sentences(articles)
 
     for a in articles:
+        print("\nARTIKEL: \n")
         for p in a:
+            print("\n   PARAGRAPH: \n")
             for s in p:
+                print("\n       SENTENCE: \n")
                 print(s + ".")
-                print("\n-\n")
-            print("\n---\n")
-        print("\n------------\n")
 
 if __name__ == "__main__":
     main(sys.argv)
