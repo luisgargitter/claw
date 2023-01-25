@@ -2,9 +2,9 @@ import os
 import sys
 import re
 
-// die header stimmen noch ned
-header1 = "26.10.2012\n\nDE\n\n.\n\nC 326\w+\n\n"
-header2 = "C 326\w+\n\nDE\n\n.\n\n26.10.2012\n\n" 
+# die header stimmen noch ned
+header1 = "26.10.2012\n\nDE\n\nAmtsblatt der Europäischen Union\n\nC 326\/\d+\n\n"
+header2 = "C 326\/\d+\n\nDE\n\nAmtsblatt der Europäischen Union\n\n26.10.2012\n\n" 
 
 def strip_to_last_sentence(article):
     article += "\n"
@@ -31,12 +31,12 @@ def split_articles(text):
 def remove_unwanted(text):
     res = re.sub("\(ex-Artikel\s+\d+\s.+", "", text)
     res = re.sub(header1, "", res)
-    res = re.sub(header2, "", res)    
+    res = re.sub(header2, "", res).replace("\f", "")  
 
     return res
 
 def main(args):
-    with open(args[1], "r") as f:
+    with open(args[1], "r", encoding="utf-8") as f:
         text = f.read()
     articles = split_articles(remove_unwanted(text))[1:]
     articles = extract_paragraphs(articles)
