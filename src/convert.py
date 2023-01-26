@@ -26,7 +26,7 @@ def split_paragraphs(article):
     return list(filter(None, temp)) # remove empty paragraphs
 
 def split_sentences(paragraph):
-    temp = re.split("\.\s", paragraph.strip())
+    temp = re.split("\D\.\s", paragraph.strip())
     return list(filter(None, temp)) # remove empty paragraphs
 
 def cleanup(sentence):
