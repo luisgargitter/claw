@@ -5,7 +5,7 @@ def remove_unwanted(text):
     # remove everything in front of Artikel 1
     text = text[re.search("<p>Artikel 1</p>", text).span()[1]:]
     # remove attachment
-    text = text[:re.search("<p>ANHANG</p>", text).span()[0]]
+    text = text[:re.search("<p>Protokolle</p>", text).span()[0]]
     # remove (ex-Artikel ...)
     text = re.sub("<p>\(ex-Artikel \d+.+</p>", "", text)
     # remove TITEL X
@@ -34,7 +34,7 @@ def cleanup(sentence):
     return re.sub("\n", "", temp)
 
 def clawid(a, p, s):
-    return "CLAWID={}:{}:{}\t".format(a, p, s)
+    return "CLAWID={}:{}:{}\t".format(a + 1, p + 1, s + 1)
 
 def convert(text):
     text = remove_unwanted(text)
